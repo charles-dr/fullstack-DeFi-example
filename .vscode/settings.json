@@ -1,5 +1,6 @@
 {
   "solidity.remappings": [
-    "@openzeppelin/=C:/Users/Tai/.brownie/packages/OpenZeppelin/openzeppelin-contracts@4.2.0"
+    "@openzeppelin/=C:/Users/Tai/.brownie/packages/OpenZeppelin/openzeppelin-contracts@4.2.0",
+    "@chainlink/=C:/Users/Tai/.brownie/packages/smartcontractkit/chainlink-brownie-contracts@0.2.2",
   ]
 }
