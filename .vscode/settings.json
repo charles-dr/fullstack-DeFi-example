@@ -1,0 +1,5 @@
+{
+  "solidity.remappings": [
+    "@openzeppelin/=C:/Users/Tai/.brownie/packages/OpenZeppelin/openzeppelin-contracts@4.2.0"
+  ]
+}
