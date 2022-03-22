@@ -9,6 +9,7 @@ from brownie import (
     MockDAI,
     MockWETH,
 )
+from web3 import Web3
 
 LOCAL_BLOCKCHAIN_ENVIRONMENTS = [
     "hardhat",
@@ -30,8 +31,8 @@ contract_to_mock = {
 }
 
 
-DECIMALS = 8
-INITIAL_VALUE = 200000000000
+DECIMALS = 18
+INITIAL_PRICE_FEED_VALUE = Web3.toWei(2000, 'ether')
 BREED_MAPPING = {0: "PUG", 1: "SHIBA_INU", 2: "ST_BERNARD"}
 
 
@@ -78,7 +79,7 @@ def get_contract(contract_name):
     return contract
 
 
-def deploy_mocks(decimals=DECIMALS, initial_value=INITIAL_VALUE):
+def deploy_mocks(decimals=DECIMALS, initial_value=INITIAL_PRICE_FEED_VALUE):
     account = get_account()
 
     print("Deploying mock DAI")
