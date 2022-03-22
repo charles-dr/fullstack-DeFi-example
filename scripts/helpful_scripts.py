@@ -6,6 +6,8 @@ from brownie import (
     MockV3Aggregator,
     VRFCoordinatorMock,
     LinkToken,
+    MockDAI,
+    MockWETH,
 )
 
 LOCAL_BLOCKCHAIN_ENVIRONMENTS = [
@@ -20,8 +22,9 @@ OPENSEA_URL = "https://testnets.opensea.io/assets/{}/{}"
 
 contract_to_mock = {
     "eth_usd_price_feed": MockV3Aggregator,
-    "fau_token": "",
-    "weth_token": "",
+    "dai_usd_price_feed": MockV3Aggregator,
+    "fau_token": MockDAI,
+    "weth_token": MockWETH,
     # "vrf_coordinator": VRFCoordinatorMock,
     # "link_token": LinkToken,
 }
@@ -77,7 +80,20 @@ def get_contract(contract_name):
 
 def deploy_mocks(decimals=DECIMALS, initial_value=INITIAL_VALUE):
     account = get_account()
-    MockV3Aggregator.deploy(decimals, initial_value, {"from": account})
-    link_token = LinkToken.deploy({"from": account})
-    VRFCoordinatorMock.deploy(link_token.address, {"from": account})
+
+    print("Deploying mock DAI")
+    dai_token = MockDAI.deploy({"from": account})
+    print(f"Deployed to {dai_token.address}")
+
+    print("Deploying Mock WETH")
+    weth_token = MockWETH.deploy({"from": account})
+    print(f"Deployed to {weth_token.address}")
+
+    print('Deploying Mock Price Feed...')
+    mock_price_feed = MockV3Aggregator.deploy(decimals, initial_value, {"from": account})
+    print(f"Deployed to {mock_price_feed}")
+
+    # link_token = LinkToken.deploy({"from": account})
+    # VRFCoordinatorMock.deploy(link_token.address, {"from": account})
+
     print("Deployed!")

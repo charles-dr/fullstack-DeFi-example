@@ -1,4 +1,4 @@
-from brownie import network, DappToken, TokenFarm, config
+from brownie import network, config, DappToken, TokenFarm, MockV3Aggregator, MockDAI, MockWETH
 from scripts.helpful_scripts import get_account, get_contract
 from web3 import Web3
 
@@ -24,11 +24,16 @@ def deploy_token_farm_and_dapp_token():
     weth_token: get_contract("eth_usd_price_feed"),
   }
 
-  add_allowed_token(token_farm, dapp_token.address, account)
-
+  add_allowed_token(token_farm, dict_of_allowed_tokens, account)
+  return token_farm, dapp_token
 
 def add_allowed_token(token_farm, dict_of_allowed_tokens, account):
-  pass
+  for token in dict_of_allowed_tokens:
+    add_tx = token_farm.addAllowedTokens(token.address, {"from": account})
+    add_tx.wait(1)
+    set_tx = token_farm.setPriceFeedContract(token.address, dict_of_allowed_tokens[token], {"from": account})
+    set_tx.wait(1)
+  return token_farm
 
 
 def main():
